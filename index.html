@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Young Yoo — Photographs</title>
+<meta name="description" content="유영남의 사진 갤러리">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --ink: #141414;
+    --ink-soft: #767676;
+    --hairline: #EAEAEA;
+    --paper: #FAFAF8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans KR", -apple-system, sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- 상단 헤더 ---------- */
+  header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 88px 32px 56px;
+  }
+
+  .site-title {
+    font-family: "Gowun Batang", serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+
+  .site-sub {
+    margin-top: 14px;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 46ch;
+  }
+
+  .site-meta {
+    margin-top: 28px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  /* ---------- 갤러리 ---------- */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px 96px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--hairline);
+    margin-bottom: 48px;
+  }
+
+  .gallery {
+    columns: 3;
+    column-gap: 28px;
+  }
+  @media (max-width: 900px) { .gallery { columns: 2; } }
+  @media (max-width: 560px) { .gallery { columns: 1; } }
+
+  figure.photo {
+    break-inside: avoid;
+    margin-bottom: 44px;
+    cursor: zoom-in;
+  }
+
+  figure.photo img {
+    width: 100%;
+    display: block;
+    background: var(--paper);
+    transition: opacity 0.25s ease;
+  }
+
+  figure.photo:hover img { opacity: 0.92; }
+
+  figure.photo:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  figcaption {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  .cap-title {
+    font-size: 0.88rem;
+    font-weight: 400;
+  }
+
+  .cap-exif {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ---------- 라이트박스 ---------- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.97);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    z-index: 100;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+
+  .lightbox img {
+    max-width: 100%;
+    max-height: 82vh;
+    display: block;
+  }
+
+  .lightbox .lb-caption {
+    margin-top: 18px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .lightbox .lb-close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--ink);
+    cursor: pointer;
+    line-height: 1;
+    padding: 8px;
+  }
+  .lightbox .lb-close:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  /* ---------- 푸터 ---------- */
+  footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px 64px;
+    border-top: 1px solid var(--hairline);
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  footer .foot-mono {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <!-- ✏️ 제목과 소개글은 자유롭게 수정하세요 -->
+  <h1 class="site-title">빛으로 쓰는 기록</h1>
+  <p class="site-sub">유영남의 사진 갤러리. 일상과 공동체, 그리고 그 사이의 순간들.</p>
+  <p class="site-meta">Federal Way, WA · Sony α7 IV</p>
+</header>
+
+<main>
+  <hr class="divider">
+  <div class="gallery" id="gallery"></div>
+</main>
+
+<footer>
+  <span>© 2026 Young Yoo</span>
+  <span class="foot-mono">All photographs by Young Yoo</span>
+</footer>
+
+<!-- 라이트박스 (사진 클릭 시 크게 보기) -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+  <button class="lb-close" id="lbClose" aria-label="닫기">✕</button>
+  <img id="lbImage" src="" alt="">
+  <div class="lb-caption" id="lbCaption"></div>
+</div>
+
+<script>
+/* ============================================================
+   📷 사진 목록 — 여기만 수정하시면 됩니다!
+   ------------------------------------------------------------
+   1. 사진 파일을 photos 폴더에 넣으세요 (예: photos/sunset.jpg)
+   2. 아래 목록에 한 줄 추가하세요:
+      { src: "photos/sunset.jpg", title: "노을", exif: "35mm · f/1.8 · ISO 100" }
+   3. title과 exif는 비워도 됩니다 ("" 로 두면 표시 안 됨)
+
+   ※ 아래 picsum.photos 주소는 미리보기용 예시 사진입니다.
+     본인 사진으로 교체하세요.
+   ※ 웹 게재용 권장: 긴 변 2048px, 장당 1MB 이하로 리사이즈
+   ============================================================ */
+const photos = [
+  { src: "https://picsum.photos/id/1015/1200/800",  title: "예시 사진 1", exif: "24mm · f/8 · ISO 100" },
+  { src: "https://picsum.photos/id/1039/900/1200",  title: "예시 사진 2", exif: "50mm · f/2.8 · ISO 200" },
+  { src: "https://picsum.photos/id/1043/1200/900",  title: "예시 사진 3", exif: "70mm · f/4 · ISO 400" },
+  { src: "https://picsum.photos/id/1050/1000/1250", title: "예시 사진 4", exif: "35mm · f/1.8 · ISO 100" },
+  { src: "https://picsum.photos/id/1060/1200/800",  title: "예시 사진 5", exif: "85mm · f/2 · ISO 320" },
+  { src: "https://picsum.photos/id/1067/900/1200",  title: "예시 사진 6", exif: "24mm · f/5.6 · ISO 100" },
+];
+
+/* ---------- 이하 코드는 수정하지 않으셔도 됩니다 ---------- */
+const gallery = document.getElementById("gallery");
+const lightbox = document.getElementById("lightbox");
+const lbImage = document.getElementById("lbImage");
+const lbCaption = document.getElementById("lbCaption");
+const lbClose = document.getElementById("lbClose");
+
+photos.forEach((p) => {
+  const fig = document.createElement("figure");
+  fig.className = "photo";
+  fig.tabIndex = 0;
+  fig.setAttribute("role", "button");
+  fig.setAttribute("aria-label", (p.title || "사진") + " 크게 보기");
+
+  const img = document.createElement("img");
+  img.src = p.src;
+  img.alt = p.title || "photograph";
+  img.loading = "lazy";
+  fig.appendChild(img);
+
+  if (p.title || p.exif) {
+    const cap = document.createElement("figcaption");
+    if (p.title) {
+      const t = document.createElement("span");
+      t.className = "cap-title";
+      t.textContent = p.title;
+      cap.appendChild(t);
+    }
+    if (p.exif) {
+      const e = document.createElement("span");
+      e.className = "cap-exif";
+      e.textContent = p.exif;
+      cap.appendChild(e);
+    }
+    fig.appendChild(cap);
+  }
+
+  const open = () => {
+    lbImage.src = p.src;
+    lbImage.alt = p.title || "photograph";
+    lbCaption.textContent = [p.title, p.exif].filter(Boolean).join("  ·  ");
+    lightbox.classList.add("open");
+    lbClose.focus();
+    document.body.style.overflow = "hidden";
+  };
+
+  fig.addEventListener("click", open);
+  fig.addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); open(); }
+  });
+
+  gallery.appendChild(fig);
+});
+
+const closeLB = () => {
+  lightbox.classList.remove("open");
+  lbImage.src = "";
+  document.body.style.overflow = "";
+};
+lightbox.addEventListener("click", closeLB);
+lbClose.addEventListener("click", (e) => { e.stopPropagation(); closeLB(); });
+lbImage.addEventListener("click", (e) => e.stopPropagation());
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && lightbox.classList.contains("open")) closeLB();
+});
+</script>
+
+</body>
+</html>
